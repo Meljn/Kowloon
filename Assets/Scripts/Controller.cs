@@ -5,43 +5,115 @@ using Unity.VisualScripting;
 
 public class Controller : MonoBehaviour
 {
-    private Animator animator;
-    private CharacterController controller;
-    public float walkSpeed;
-    public float sprintSpeed;
-    public float smoothTime;
-    float smoothVelocity;
-    public Transform firstCamera;
+    [SerializeField] float walkSpeed = 5f;
+    [SerializeField] float sprintSpeed = 7f;
+    [SerializeField] float rotationSpeed = 500f;
+    [SerializeField] float jumpHeight = 2f;
 
+    [Header("Ground Check Settings")]
+    [SerializeField] float groundCheckRadius = 0.2f;
+    [SerializeField] Vector3 groundCheckOffset;
+    [SerializeField] LayerMask groundLayer;
 
-    private float g = -9.8f;
-    public float jumpHeight = 2.0f;
-    private bool isGrounded;
-    private Vector3 velocity;
+    bool isGrounded;
+    float ySpeed;
 
-    public Transform groundCheck;
-    public float groundDistance = 0.4f;
-    public LayerMask groundMask;
+    Quaternion targetRotation;
 
-    void Start()
+    CameraController cameraController;
+    Animator animator;
+    CharacterController characterController;
+
+    void Awake()
     {
-        //groundCheck = GetComponent<Transform>();
-        controller = GetComponent<CharacterController>();
+        cameraController = Camera.main.GetComponent<CameraController>();
         animator = GetComponent<Animator>();
-        
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        characterController = GetComponent<CharacterController>();
     }
 
 
-    void Update()
+    void FixedUpdate()
     {
         Movement();
-        Jump();
+    }
+
+
+
+    private void Movement()
+    {
+        float h = Input.GetAxis("Horizontal");
+        float v = Input.GetAxis("Vertical");
+
+        float currentSpeed = (Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed);
+        float moveAmount = Mathf.Clamp01(Math.Abs(h) + Math.Abs(v));
+
+        var moveInput = (new Vector3(h, 0, v)).normalized;
+
+        var moveDir = cameraController.PlanarRotation * moveInput;
+
+        GroundCheck();
+        animator.SetBool("isGrounded", isGrounded);
+
+        if (isGrounded)
+        {
+            ySpeed = -0.5f;
+        }
+
+        if (Input.GetButtonDown("Jump") && isGrounded)
+        {
+            ySpeed = Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y);
+        }
+
+        if (!isGrounded) 
+        {
+            ySpeed += Physics.gravity.y * Time.deltaTime;
+        }
+
+        var velocity = moveDir * currentSpeed;
+        velocity.y = ySpeed;
+
+        characterController.Move(velocity * Time.deltaTime);
+
+        if (moveAmount > 0)
+        {
+            targetRotation = Quaternion.LookRotation(moveDir);
+        }
+
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+        moveAmount = (Input.GetKey(KeyCode.LeftShift) && moveAmount > 0) ? moveAmount + 1 : moveAmount;
+        animator.SetFloat("Speed", moveAmount, 0.15f, Time.deltaTime);
 
     }
 
-    private void Movement()
+    void GroundCheck()
+    {
+        isGrounded = Physics.CheckSphere(transform.TransformPoint(groundCheckOffset), groundCheckRadius, groundLayer);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = new Color(0, 1, 0, 0.5f);
+        Gizmos.DrawSphere(transform.TransformPoint(groundCheckOffset), groundCheckRadius);
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*private void Movement()
     {
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
@@ -96,7 +168,7 @@ public class Controller : MonoBehaviour
     }
 
 
-}
+}*/
 
 
 
