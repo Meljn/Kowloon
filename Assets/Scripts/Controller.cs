@@ -32,7 +32,7 @@ public class Controller : MonoBehaviour
     }
 
 
-    void FixedUpdate()
+    void Update()
     {
         Movement();
     }
@@ -53,6 +53,7 @@ public class Controller : MonoBehaviour
 
         GroundCheck();
         animator.SetBool("isGrounded", isGrounded);
+        animator.SetBool("isSprint", Input.GetKey(KeyCode.LeftShift));
 
         if (isGrounded)
         {
