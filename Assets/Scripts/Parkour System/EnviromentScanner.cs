@@ -28,6 +28,7 @@ public class EnviromentScanner : MonoBehaviour
     }
 }
 
+
 public struct ObstacleHitData
 {
     public bool forwardHitFound;

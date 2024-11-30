@@ -38,12 +38,13 @@ public class CameraController : MonoBehaviour
 
         rotationY += Input.GetAxis("Mouse X") * rotationSpeed * invertXVal;
 
-        var targetRoattion = Quaternion.Euler(rotationX, rotationY, 0);
+        var targetRotation = Quaternion.Euler(rotationX, rotationY, 0);
 
         var focusPosition = followTarget.position + new Vector3(framingOffset.x, framingOffset.y);
 
-        transform.position = focusPosition - targetRoattion * new Vector3(0, 0, distance);
-        transform.rotation = targetRoattion;
+        transform.position = focusPosition - targetRotation * new Vector3(0, 0, distance);
+        transform.rotation = targetRotation;
+
     }
 
     public Quaternion PlanarRotation => Quaternion.Euler(0, rotationY, 0);

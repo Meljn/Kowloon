@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
+using UnityEditor.ShaderKeywordFilter;
 
 public class Controller : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class Controller : MonoBehaviour
     [SerializeField] LayerMask groundLayer;
 
     bool isGrounded;
+    bool hasControl = true;
+
     float ySpeed;
 
     Quaternion targetRotation;
@@ -50,6 +53,8 @@ public class Controller : MonoBehaviour
         var moveInput = (new Vector3(h, 0, v)).normalized;
 
         var moveDir = cameraController.PlanarRotation * moveInput;
+
+        if (!hasControl) return;
 
         GroundCheck();
         animator.SetBool("isGrounded", isGrounded);
@@ -90,6 +95,17 @@ public class Controller : MonoBehaviour
     void GroundCheck()
     {
         isGrounded = Physics.CheckSphere(transform.TransformPoint(groundCheckOffset), groundCheckRadius, groundLayer);
+    }
+
+    public void SetControl(bool hasControl)
+    {
+        this.hasControl = hasControl;
+        characterController.enabled = hasControl;
+
+        if (!hasControl)
+        {            
+            targetRotation = transform.rotation;
+        }
     }
 
     private void OnDrawGizmosSelected()

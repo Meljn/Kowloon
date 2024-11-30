@@ -313,13 +313,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.17596598, y: 0.024520349, z: -0.0043845447, w: 0.98408103}
-  m_LocalPosition: {x: 5.5356865, y: 2.2958775, z: 2.8170233}
+  m_LocalRotation: {x: 0.13120212, y: -0.008094301, z: 0.001071286, w: 0.99132204}
+  m_LocalPosition: {x: 11.84, y: 2.371271, z: 3.6756094}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 25.542, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &330585547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -716,7 +716,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.999319, y: 0.12, z: 8.518903}
-  m_LocalScale: {x: 2.1356, y: 0.30784526, z: 1.9949912}
+  m_LocalScale: {x: 2.1356, y: 0.67870045, z: 1.9949912}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -3132,7 +3132,7 @@ Transform:
   m_GameObject: {fileID: 7970916565005120693}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.043, y: 0.19, z: 5.86}
+  m_LocalPosition: {x: 11.84, y: 0.19, z: 6.07}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3335,10 +3335,10 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 8840d08b5b9510b459f2d6a4261e22b0, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
+  m_AnimatePhysics: 1
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -3361,7 +3361,7 @@ MonoBehaviour:
   rotationSpeed: 500
   jumpHeight: 2
   groundCheckRadius: 0.2
-  groundCheckOffset: {x: 0, y: 0.15, z: 0.09}
+  groundCheckOffset: {x: 0, y: 0.18, z: 0.09}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -3403,7 +3403,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   forwardRayOffset: {x: 0, y: 0.25, z: 0}
-  forwardRayLength: 0.8
+  forwardRayLength: 0.5
   heightRayLength: 5
   obstacleLayer:
     serializedVersion: 2
