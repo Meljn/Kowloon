@@ -65,10 +65,10 @@ public class Controller : MonoBehaviour
             ySpeed = -0.5f;
         }
 
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        /*if (Input.GetButtonDown("Jump") && isGrounded)
         {
             ySpeed = Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y);
-        }
+        }*/
 
         if (!isGrounded) 
         {
