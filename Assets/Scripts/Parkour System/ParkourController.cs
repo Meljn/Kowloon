@@ -44,16 +44,38 @@ public class ParkourController : MonoBehaviour
         inAction = true;
         controller.SetControl(false);
 
-        animator.CrossFade(action.AnimName, 0.2f);
-     
+        animator.CrossFade(action.AnimName, 0.1f);
+        yield return null;
+        
 
         var animState = animator.GetNextAnimatorStateInfo(0);
-        if (animState.IsName(action.AnimName))
-            Debug.Log("The parkour animation is wrong");
+        if (!animState.IsName(action.AnimName))
+            Debug.Log("The parkour animation is wrong"); 
 
-        yield return new WaitForSeconds(animState.length - 0.1f);
+
+        float timer = 0f;
+        while (timer <= animState.length)
+        {
+            timer += Time.deltaTime;
+
+            if (action.RotateToObstacle)
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, action.TargetRotation, controller.RotationSpeed * Time.deltaTime);
+
+            if (action.EnableTargetMatching)
+                MatchTarget(action);
+
+            yield return null;
+        }
+
 
         controller.SetControl(true);
         inAction = false;
+    }
+
+    void MatchTarget(ParkourAction action)
+    {
+        if (animator.isMatchingTarget) return;
+
+        animator.MatchTarget(action.MatchPos, transform.rotation, action.MatchBodyPart, new MatchTargetWeightMask(new Vector3(0, 1, 0), 0), action.MatchStartTime, action.MatchTargetTime);
     }
 }
