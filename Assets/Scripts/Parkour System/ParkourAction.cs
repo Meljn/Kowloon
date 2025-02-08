@@ -16,6 +16,7 @@ public class ParkourAction : ScriptableObject
     [SerializeField] AvatarTarget matchBodyPart;
     [SerializeField] float matchStartTime;
     [SerializeField] float matchTargetTime;
+    [SerializeField] Vector3 matchPosWeight = new Vector3(0, 1, 0);
 
     public Quaternion TargetRotation { get; set; }
     public Vector3 MatchPos { get; set; }
@@ -42,5 +43,7 @@ public class ParkourAction : ScriptableObject
     public AvatarTarget MatchBodyPart => matchBodyPart;
     public float MatchStartTime => matchStartTime;
     public float MatchTargetTime => matchTargetTime;
+
+    public Vector3 MatchPosWeight => matchPosWeight;
 
 }

@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d51998bc13f717346bb65082f9690186, type: 3}
-  m_Name: StepUp
+  m_Name: ClimbUp
   m_EditorClassIdentifier: 
-  animName: StepUp
-  minHeight: 0.3
-  maxHeight: 0.5
+  animName: ClimbUp
+  minHeight: 1.5
+  maxHeight: 3
   rotateToObstacle: 1
   enableTargetMatching: 1
-  matchBodyPart: 3
-  matchStartTime: 0
-  matchTargetTime: 1
+  matchBodyPart: 2
+  matchStartTime: 0.1
+  matchTargetTime: 0.42
+  matchPosWeight: {x: 0, y: 1, z: 1}

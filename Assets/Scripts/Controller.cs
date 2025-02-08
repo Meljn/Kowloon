@@ -30,7 +30,7 @@ public class Controller : MonoBehaviour
     void Awake()
     {
         cameraController = Camera.main.GetComponent<CameraController>();
-        animator = GetComponent<Animator>();
+        //animator = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
     }
 
@@ -57,8 +57,8 @@ public class Controller : MonoBehaviour
         if (!hasControl) return;
 
         GroundCheck();
-        animator.SetBool("isGrounded", isGrounded);
-        animator.SetBool("isSprint", Input.GetKey(KeyCode.LeftShift));
+        //animator.SetBool("isGrounded", isGrounded);
+        //animator.SetBool("isSprint", Input.GetKey(KeyCode.LeftShift));
 
         if (isGrounded)
         {
@@ -88,7 +88,7 @@ public class Controller : MonoBehaviour
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
         moveAmount = (Input.GetKey(KeyCode.LeftShift) && moveAmount > 0) ? moveAmount + 1 : moveAmount;
-        animator.SetFloat("Speed", moveAmount, 0.15f, Time.deltaTime);
+        //sanimator.SetFloat("Speed", moveAmount, 0.15f, Time.deltaTime);
 
     }
 

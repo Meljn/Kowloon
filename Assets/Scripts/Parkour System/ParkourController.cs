@@ -54,7 +54,7 @@ public class ParkourController : MonoBehaviour
 
 
         float timer = 0f;
-        while (timer <= animState.length)
+        while (timer <= 0.8f)
         {
             timer += Time.deltaTime;
 
@@ -76,6 +76,6 @@ public class ParkourController : MonoBehaviour
     {
         if (animator.isMatchingTarget) return;
 
-        animator.MatchTarget(action.MatchPos, transform.rotation, action.MatchBodyPart, new MatchTargetWeightMask(new Vector3(0, 1, 0), 0), action.MatchStartTime, action.MatchTargetTime);
+        animator.MatchTarget(action.MatchPos, transform.rotation, action.MatchBodyPart, new MatchTargetWeightMask(new Vector3(0, 1, 1), 0), action.MatchStartTime, action.MatchTargetTime);
     }
 }
