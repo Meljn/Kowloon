@@ -56,7 +56,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool OnSlope()
     {
-        if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, playerHeight / 2 + 0.5f))
+        if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, playerHeight / 2 + 0.2f))
         {
             if (slopeHit.normal != Vector3.up)
             {
@@ -92,6 +92,8 @@ public class PlayerMovement : MonoBehaviour
         }
 
         slopeMoveDirection = Vector3.ProjectOnPlane(moveDirection, slopeHit.normal);
+
+        Debug.Log(OnSlope());
 
     }
 
@@ -136,7 +138,7 @@ public class PlayerMovement : MonoBehaviour
         
         camShake.SetFloat("Speed", rb.linearVelocity.magnitude);
         camShake.SetBool("isGrounded", isGrounded);
-        Debug.Log(rb.linearVelocity.magnitude + " " + isGrounded);
+        
 
     }
 
@@ -155,7 +157,7 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         MovePlayer();
-        rb.useGravity = !OnSlope();
+        //rb.useGravity = !OnSlope();
     }
 
     void MovePlayer()
@@ -176,7 +178,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Crouching()
     {
-        if (Input.GetKeyDown(crouchKey) && isGrounded) {
+        if (Input.GetKeyDown(crouchKey)) {
             transform.localScale = new Vector3(transform.localScale.x, crouchYscale, transform.localScale.z);
             rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
             isCrouching = true;
