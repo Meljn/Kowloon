@@ -133,6 +133,10 @@ public class PlayerMovement : MonoBehaviour
             moveSpeed = Mathf.Lerp(moveSpeed, walkSpeed, acceleration * Time.deltaTime);
         }
 
+        
+        camShake.SetFloat("Speed", rb.linearVelocity.magnitude);
+        camShake.SetBool("isGrounded", isGrounded);
+        Debug.Log(rb.linearVelocity.magnitude + " " + isGrounded);
 
     }
 
