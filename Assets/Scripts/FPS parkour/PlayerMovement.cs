@@ -200,7 +200,6 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         MovePlayer();
-        //rb.useGravity = !OnSlope();
     }
 
     void MovePlayer()

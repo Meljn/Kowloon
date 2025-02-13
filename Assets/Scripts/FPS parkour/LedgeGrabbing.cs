@@ -82,7 +82,7 @@ public class LedgeGrabbing : MonoBehaviour
 
         if (ledgeHit.transform == lastLedge) return;
 
-        if (distanceToLedge < maxLedgeGrabDistance && !holding) EnterLedgeHold();
+        if (distanceToLedge < maxLedgeGrabDistance && !holding && !pm.isGrounded) EnterLedgeHold();
     }
 
     private void LedgeJump()
@@ -124,13 +124,16 @@ public class LedgeGrabbing : MonoBehaviour
         
         if (distanceToLedge > 1f)
         {
-            if (rb.linearVelocity.magnitude < moveToLedgeSpeed)
-                rb.AddForce(directionToLedge.normalized * moveToLedgeSpeed * 1000f * Time.deltaTime);
+            rb.AddForce(directionToLedge.normalized * moveToLedgeSpeed * 1000f * Time.deltaTime);
+            
         }
 
         
         else
         {
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+
             if (!pm.freeze) pm.freeze = true;
             if (pm.unlimited) pm.unlimited = false;
         }
@@ -152,7 +155,7 @@ public class LedgeGrabbing : MonoBehaviour
         pm.restricted = false;
         pm.freeze = false;
 
-        //rb.useGravity = true;
+        rb.useGravity = true;
 
         StopAllCoroutines();
         Invoke(nameof(ResetLastLedge), 1f);
