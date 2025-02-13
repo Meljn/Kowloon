@@ -13,12 +13,12 @@ TagManager:
   - Ground
   - Water
   - UI
-  - Obstacles
+  - whatIsPlayer
   - 
   - 
-  - 
-  - 
-  - 
+  - whatIsWall
+  - Ground
+  - whatIsLedge
   - 
   - 
   - 
