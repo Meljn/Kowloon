@@ -103,8 +103,8 @@ public class LedgeGrabbing : MonoBehaviour
     {
         holding = true;
 
-        pm.unlimited = true;
-        pm.restricted = true;
+        //pm.unlimited = true;
+        //pm.restricted = true;
 
         currLedge = ledgeHit.transform;
         lastLedge = ledgeHit.transform;

@@ -6,6 +6,7 @@ public class WallRun : MonoBehaviour
 {
     [Header("Movement")]
     [SerializeField] private Transform orientation;
+    [SerializeField] Sounds sound;
 
     [Header("Detection")]
     [SerializeField] private float wallDistance = .5f;
@@ -104,6 +105,8 @@ public class WallRun : MonoBehaviour
                 rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
                 rb.AddForce(wallRunJumpDirection * wallRunJumpForce * 100, ForceMode.Force);
             }
+
+            sound.PlaySound(sound.sounds[2]);
         }
     }
 

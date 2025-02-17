@@ -4,24 +4,28 @@ using System.Runtime.CompilerServices;
 using Unity.Hierarchy;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : Sounds
 {
+
     float playerHeight = 2f;
 
-    public Animator camShake;
 
     [SerializeField] Transform orientation;
+    [SerializeField] private Camera cam;
 
     public Climbing climbingScript;
 
     [Header("Movement")]
-    public float moveSpeed = 6f;
+    public float moveSpeed = 0f;
     public float climbSpeed;
     [SerializeField] float airMultiplier = 0.4f;
     float movementMultiplier = 10f;
     public float crouchYscale = 0.5f;
     public float startYScale;
+    public float sprintfov;
+    public float walkfov;
     bool isCrouching = false;
 
     [Header("Sprinting")]
@@ -73,7 +77,11 @@ public class PlayerMovement : MonoBehaviour
     {
         freeze,
         unlimited,
-        climbing
+        climbing,
+        walk,
+        sprint,
+        jump,
+        idle
     }
 
     private bool OnSlope()
@@ -107,7 +115,10 @@ public class PlayerMovement : MonoBehaviour
         ControlDrag();
         ControlSpeed();
         Crouching();
+        StateHandler();
 
+
+        Debug.Log(state + " " + (moveSpeed == sprintSpeed) + " " + moveSpeed + " " + sprintSpeed);
     }
 
     void MyInput()
@@ -118,6 +129,7 @@ public class PlayerMovement : MonoBehaviour
         moveDirection = orientation.forward * verticalMovement + orientation.right * horizontalMovement;
         if (Input.GetKey(jumpKey) && readyToJump && isGrounded)
         {
+            state = MovementState.jump;
             readyToJump = false;
 
             Jump();
@@ -134,6 +146,9 @@ public class PlayerMovement : MonoBehaviour
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
 
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+
+        PlaySound(sounds[2]);
+
     }
     private void ResetJump()
     {
@@ -145,14 +160,16 @@ public class PlayerMovement : MonoBehaviour
 
     void ControlSpeed()
     {
+
         if (OnSlope() && !exitingSlope)
         {
             if (rb.linearVelocity.magnitude > moveSpeed)
                 rb.linearVelocity = rb.linearVelocity.normalized * moveSpeed;
         }
 
-        if (Input.GetKey(sprintKey) && isGrounded)
+        else if (Input.GetKey(sprintKey) && isGrounded)
         {
+            state = MovementState.sprint;
             moveSpeed = Mathf.Lerp(moveSpeed, sprintSpeed, acceleration * Time.deltaTime);
         }
         else if (isCrouching && isGrounded)
@@ -163,22 +180,23 @@ public class PlayerMovement : MonoBehaviour
         {
             moveSpeed = Mathf.Lerp(moveSpeed, climbSpeed, acceleration * Time.deltaTime);
         }
-        else if (freeze)
+        else if (isGrounded)
         {
-            moveSpeed = 0;
-        }
-        else if (unlimited)
-        {
-            moveSpeed = 999f;
-        }
-        else
-        {
+            state = MovementState.walk;
             moveSpeed = Mathf.Lerp(moveSpeed, walkSpeed, acceleration * Time.deltaTime);
         }
 
-        
-        camShake.SetFloat("Speed", rb.linearVelocity.magnitude);
-        camShake.SetBool("isGrounded", isGrounded);
+        else if (!isGrounded && Input.GetKey(sprintKey))
+        {
+            moveSpeed = Mathf.Lerp(moveSpeed, sprintSpeed, acceleration * Time.deltaTime);
+        }
+
+        else
+        {
+            state = MovementState.jump;
+            moveSpeed = Mathf.Lerp(moveSpeed, walkSpeed, acceleration * Time.deltaTime);
+        }
+
 
         rb.useGravity = !OnSlope();
 
@@ -226,6 +244,9 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.AddForce(moveDirection.normalized * moveSpeed * movementMultiplier * airMultiplier, ForceMode.Acceleration);
         }
+
+
+
     }
 
     void Crouching()
@@ -246,7 +267,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void StateHandler()
     {
-        if (freeze)
+        /*if (freeze)
         {
             state = MovementState.freeze;
             rb.linearVelocity = Vector3.zero;
@@ -258,6 +279,28 @@ public class PlayerMovement : MonoBehaviour
             state = MovementState.unlimited;
             moveSpeed = 999f;
             return;
+        }*/
+
+        if (state == MovementState.sprint)
+        {
+            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, sprintfov, 5f * Time.deltaTime);
+        }
+
+        else if (state == MovementState.walk)
+        {
+            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, walkfov, 5f * Time.deltaTime);
+        }
+
+        else if (state == MovementState.jump && (Mathf.Abs(rb.linearVelocity.z) > 0f))
+        {
+            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, sprintfov, 5f * Time.deltaTime);
+
+        }
+
+        else if (state == MovementState.idle)
+        {
+            
         }
     }
+
 }
