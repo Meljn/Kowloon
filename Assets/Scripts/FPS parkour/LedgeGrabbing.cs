@@ -6,6 +6,7 @@ public class LedgeGrabbing : MonoBehaviour
 {
     [Header("References")]
     public PlayerMovement pm;
+    public WallRun wl;
     public Transform orientation;
     public Transform cam;
     public Rigidbody rb;
@@ -13,6 +14,7 @@ public class LedgeGrabbing : MonoBehaviour
     [Header("Ledge Grabbing")]
     public float moveToLedgeSpeed;
     public float maxLedgeGrabDistance;
+    public KeyCode grabKey;
 
     public float minTimeOnLedge;
     private float timeOnLedge;
@@ -50,7 +52,6 @@ public class LedgeGrabbing : MonoBehaviour
     {
         float horizontalInput = Input.GetAxisRaw("Horizontal");
         float verticalInput = Input.GetAxisRaw("Vertical");
-        bool anyInputKeyPressed = horizontalInput != 0 || verticalInput != 0;
 
         
         if (holding)
@@ -59,7 +60,7 @@ public class LedgeGrabbing : MonoBehaviour
 
             timeOnLedge += Time.deltaTime;
 
-            if (timeOnLedge > minTimeOnLedge && anyInputKeyPressed) ExitLedgeHold();
+            if (timeOnLedge > minTimeOnLedge && Input.GetKeyDown(grabKey)) ExitLedgeHold();
 
             if (Input.GetKeyDown(jumpKey)) LedgeJump();
         }
@@ -82,7 +83,7 @@ public class LedgeGrabbing : MonoBehaviour
 
         if (ledgeHit.transform == lastLedge) return;
 
-        if (distanceToLedge < maxLedgeGrabDistance && !holding && !pm.isGrounded) EnterLedgeHold();
+        if (distanceToLedge < maxLedgeGrabDistance && !holding && !pm.isGrounded && Input.GetKeyDown(grabKey)) EnterLedgeHold();
     }
 
     private void LedgeJump()
@@ -116,7 +117,8 @@ public class LedgeGrabbing : MonoBehaviour
     private void FreezeRigidbodyOnLedge()
     {
         rb.useGravity = false;
-
+        pm.enabled = false;
+        wl.enabled = false;
 
         Vector3 directionToLedge = currLedge.position - transform.position;
         float distanceToLedge = Vector3.Distance(transform.position, currLedge.position);
@@ -146,6 +148,8 @@ public class LedgeGrabbing : MonoBehaviour
 
     private void ExitLedgeHold()
     {
+        pm.enabled = true;
+        wl.enabled = true;
         exitingLedge = true;
         exitLedgeTimer = exitLedgeTime;
 

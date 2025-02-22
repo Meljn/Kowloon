@@ -1,8 +1,13 @@
+using System;
 using UnityEngine;
 
 public class NoCllip : MonoBehaviour
 {
     private bool isNoClip = false;
+    public PlayerMovement pm;
+    public WallRun wr;
+    public LedgeGrabbing rg;
+
     [SerializeField] float noClipSpeed = 10f;
     private Rigidbody rb;
     [SerializeField] Transform orientation;
@@ -24,6 +29,9 @@ public class NoCllip : MonoBehaviour
 
     private void ToggleNoClip()
     {
+        pm.enabled = !pm.enabled;
+        rg.enabled = !rg.enabled;
+        wr.enabled = !wr.enabled;
         isNoClip = !isNoClip;
         rb.isKinematic = isNoClip;
     }

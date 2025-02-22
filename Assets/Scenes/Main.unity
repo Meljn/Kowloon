@@ -1942,7 +1942,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &515833103
 Transform:
   m_ObjectHideFlags: 0
@@ -4427,7 +4427,7 @@ GameObject:
   - component: {fileID: 1002791677}
   - component: {fileID: 1002791676}
   - component: {fileID: 1002791675}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: Cube (36)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6287,6 +6287,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1380048447}
+  - {fileID: 2039745581}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -7010,8 +7011,8 @@ MonoBehaviour:
   wallRunGravity: 1
   wallRunJumpForce: 4
   cam: {fileID: 1191589745}
-  fov: 90
-  wallRunfov: 100
+  fov: 100
+  wallRunfov: 110
   wallRunfovTime: 10
   camTilt: 10
   camTiltTime: 10
@@ -7057,7 +7058,7 @@ MonoBehaviour:
   crouchYscale: 0.5
   startYScale: 0
   sprintfov: 120
-  walkfov: 90
+  walkfov: 100
   walkSpeed: 3
   sprintSpeed: 5
   crouchSpeed: 2
@@ -7075,7 +7076,7 @@ MonoBehaviour:
   groundDistance: 0.1
   moveDirection: {x: 0, y: 0, z: 0}
   maxSlopeAngle: 30
-  jumpCooldown: 0.5
+  jumpCooldown: 0.2
   freeze: 0
   unlimited: 0
   climbing: 0
@@ -7170,18 +7171,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pm: {fileID: 1886892075}
+  wl: {fileID: 1886892073}
   orientation: {fileID: 1565344116}
   cam: {fileID: 1191589742}
   rb: {fileID: 1886892076}
   moveToLedgeSpeed: 5
   maxLedgeGrabDistance: 3
+  grabKey: 101
   minTimeOnLedge: 0.5
   holding: 0
   jumpKey: 32
-  ledgeJumpForwardForce: 14
+  ledgeJumpForwardForce: 10
   ledgeJumpUpwardForce: 5
-  ledgeDetectionLength: 2
-  ledgeSphereCastRadius: 0.2
+  ledgeDetectionLength: 4
+  ledgeSphereCastRadius: 0.4
   whatIsLedge:
     serializedVersion: 2
     m_Bits: 2048
@@ -7319,6 +7322,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 478de276917629840b14ece78d876323, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pm: {fileID: 1886892075}
+  wr: {fileID: 1886892073}
+  rg: {fileID: 1886892079}
   noClipSpeed: 12
   orientation: {fileID: 1565344116}
 --- !u!1 &1896685239
@@ -8325,6 +8331,81 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2015189721}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &2039745580
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2039745581}
+  - component: {fileID: 2039745583}
+  - component: {fileID: 2039745582}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2039745581
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2039745580}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.26878795, y: 0.26878795, z: 0.26878795}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1630467797}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2039745582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2039745580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 18fe228526eff1b4abc4e14596616ce5, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &2039745583
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2039745580}
+  m_CullTransparentMesh: 1
 --- !u!1 &2042456339
 GameObject:
   m_ObjectHideFlags: 0

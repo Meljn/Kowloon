@@ -118,7 +118,7 @@ public class PlayerMovement : Sounds
         StateHandler();
 
 
-        Debug.Log(state + " " + (moveSpeed == sprintSpeed) + " " + moveSpeed + " " + sprintSpeed);
+        Debug.Log(moveSpeed + " " +  OnSlope());
     }
 
     void MyInput()
@@ -163,13 +163,22 @@ public class PlayerMovement : Sounds
 
         if (OnSlope() && !exitingSlope)
         {
+            if (Input.GetKey(sprintKey))
+            {
+                moveSpeed = Mathf.Lerp(moveSpeed, sprintSpeed, acceleration * Time.deltaTime);
+            }
+
+            else
+            {
+                moveSpeed = Mathf.Lerp(moveSpeed, walkSpeed, acceleration * Time.deltaTime);
+            }
+
             if (rb.linearVelocity.magnitude > moveSpeed)
                 rb.linearVelocity = rb.linearVelocity.normalized * moveSpeed;
         }
 
         else if (Input.GetKey(sprintKey) && isGrounded)
         {
-            state = MovementState.sprint;
             moveSpeed = Mathf.Lerp(moveSpeed, sprintSpeed, acceleration * Time.deltaTime);
         }
         else if (isCrouching && isGrounded)
@@ -182,7 +191,6 @@ public class PlayerMovement : Sounds
         }
         else if (isGrounded)
         {
-            state = MovementState.walk;
             moveSpeed = Mathf.Lerp(moveSpeed, walkSpeed, acceleration * Time.deltaTime);
         }
 
@@ -193,7 +201,6 @@ public class PlayerMovement : Sounds
 
         else
         {
-            state = MovementState.jump;
             moveSpeed = Mathf.Lerp(moveSpeed, walkSpeed, acceleration * Time.deltaTime);
         }
 
@@ -225,6 +232,9 @@ public class PlayerMovement : Sounds
 
         if (restricted) return;
 
+        if (moveSpeed > walkSpeed && isGrounded && rb.linearVelocity.magnitude > 1) state = MovementState.sprint;
+        else if ((isGrounded && rb.linearVelocity.magnitude < 1) || (moveSpeed == walkSpeed)) state = MovementState.walk;
+
         if (climbingScript.exitingWall)
         {
             return;
@@ -238,7 +248,7 @@ public class PlayerMovement : Sounds
         {
             rb.AddForce(GetSlopeMoveDirection() * moveSpeed * movementMultiplier, ForceMode.Acceleration);
             if (rb.linearVelocity.y > 0)
-                rb.AddForce(Vector3.down * 8f, ForceMode.Acceleration);
+                rb.AddForce(Vector3.down * 20f, ForceMode.Acceleration);
         }
         else if (!isGrounded)
         {
